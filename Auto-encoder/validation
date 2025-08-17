@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Loop over all 3 samples
+for SAMPLE in OL1393a OL1397a OL1677; do
+    # Define truth and imputed VCF paths
+    TRUTH_VCF=truth_fullcov/${SAMPLE}.truth.vcf.gz
+    IMPUTED_VCF=imputation_data/${SAMPLE}.imputed.vcf.gz
+
+    # Ensure truth VCF is properly compressed & indexed
+    zcat ${TRUTH_VCF} | bgzip > ${SAMPLE}.truth.tmp.vcf.gz
+    mv ${SAMPLE}.truth.tmp.vcf.gz ${TRUTH_VCF}
+    tabix -f -p vcf ${TRUTH_VCF}
+
+    # Run bcftools stats (summary concordance metrics)
+    bcftools stats -s ${SAMPLE%%a} \
+        ${TRUTH_VCF} \
+        ${IMPUTED_VCF} > ${SAMPLE}_compare.stats
+
+    # Run bcftools gtcheck (detailed per-site concordance)
+    bcftools gtcheck -G 1 \
+        ${TRUTH_VCF} \
+        ${IMPUTED_VCF} > ${SAMPLE}_concordance.txt
+
+    echo "Finished stats + concordance for ${SAMPLE}"
+done
