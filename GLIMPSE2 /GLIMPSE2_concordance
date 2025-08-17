@@ -1,0 +1,28 @@
+#!/bin/bash
+#$ -cwd
+#$ -V
+#$ -N concordance_chr2
+#$ -pe smp 4
+#$ -l h_vmem=16G
+#$ -l h_rt=04:00:00
+#$ -o logs/concordance_chr2.out
+#$ -e logs/concordance_chr2.err
+
+module load miniforge
+conda activate glimpse2
+
+# Ensure output directory exists
+mkdir -p GLIMPSE_concordance
+
+# Run concordance with specified parameters
+GLIMPSE2_concordance \
+  --input chr2_info_list.lst \
+  --min-val-dp 8 \
+  --output GLIMPSE_concordance/output \
+  --min-val-gl 0.9999 \
+  --bins 0.00000 0.00100 0.00200 0.00500 0.01000 0.05000 0.10000 0.20000 0.50000 \
+  --af-tag AF_nfe \
+  --threads 4
+
+
+
