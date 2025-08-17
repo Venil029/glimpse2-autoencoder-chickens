@@ -1,1 +1,41 @@
+#!/bin/bash
+#$ -N split_chr2
+#$ -cwd
+#$ -V
+#$ -l h_rt=12:00:00
+#$ -l h_vmem=8G
+#$ -pe smp 1
+#$ -o logs/split_chr2_$TASK_ID.out
+#$ -e logs/split_chr2_$TASK_ID.err
+
+# Load environment
+ml miniforge
+conda activate glimpse2
+
+# Define input files and directories
+REF=vcf/chr2.4993.annot.merged.filtered.phased.bcf
+MAP=maps/chr2.average.gmap.gz
+CHUNKS=chunks.chr2.txt
+OUTDIR=vcf/split_reference_chr2
+
+# Create output directory if it doesn't exist
+mkdir -p ${OUTDIR}
+
+# Extract the chunk line based on SGE task ID
+LINE=$(sed -n "${SGE_TASK_ID}p" ${CHUNKS})
+ID=$(echo $LINE | cut -d" " -f1)
+IRG=$(echo $LINE | cut -d" " -f3)
+ORG=$(echo $LINE | cut -d" " -f4)
+
+# Run GLIMPSE2_split_reference
+GLIMPSE2_split_reference \
+    --reference ${REF} \
+    --map ${MAP} \
+    --input-region ${IRG} \
+    --output-region ${ORG} \
+    --output ${OUTDIR}/chr2.4993.split
+
+conda deactivate
+
+
 
