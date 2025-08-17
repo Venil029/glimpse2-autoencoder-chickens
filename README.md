@@ -1,6 +1,6 @@
 Reconstructing Genotypes from Ultra-Low-Coverage Ancient Chicken DNA:A Benchmark of GLIMPSE2 and Deep-Learning Autoencoders
 
-Overview
+Overview:
 This repository contains the full analysis pipeline and scripts developed for my MSc thesis, which investigates how to rebuild accurate genotypes from ultra-low-coverage ancient chicken DNA. Ancient DNA (aDNA) is often degraded and sequenced at very low depths, making it difficult to study population history, domestication, and evolutionary processes.
 
 To address this, two complementary imputation strategies are compared:
@@ -8,7 +8,7 @@ To address this, two complementary imputation strategies are compared:
 2. Autoencoder (AE) – a deep-learning approach that learns patterns of genetic variation directly from a modern chicken reference panel and applies them to sparse ancient genomes.
 By systematically benchmarking both approaches on downsampled high-coverage ancient chicken genomes, this project explores their relative strengths and limitations, and identifies best practices for future ancient DNA studies.
 
-Goals of the Project
+Goals of the Project:
 
 1.To test whether statistical haplotype-based methods (GLIMPSE2) and deep learning (autoencoders) can accurately reconstruct genotypes at ultra-low sequencing depths (0.1×–2×).
 
@@ -17,8 +17,8 @@ Goals of the Project
 3.To evaluate the impact of genotype probability (GP) filtering in rescuing accuracy at very low depths.
 
 4.To explore whether deep learning can provide more coverage-independent performance compared to traditional statistical models.
-Repository Structure
 
+Repository Structure:
 The project is divided into two main workflows, reflecting the two imputation strategies:
 
 GLIMPSE2/ – Contains scripts for the stepwise statistical pipeline:
@@ -34,7 +34,7 @@ Converting predictions back into VCF format and validation.
 
 Additional helper scripts and visualisation utilities are included in both pipelines.
 
-Requirements
+Requirements:
 To reproduce the analysis, you will need:
 
 GLIMPSE2 (for statistical imputation)
