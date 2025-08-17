@@ -1,1 +1,5 @@
-
+GLIMPSE2_chunk \
+  --input reference_panel/chr2.referencePanel.sites.vcf.gz \
+  --region chr2 \
+  --map maps/GRCg7b/chr2.gmap.gz \
+  --output chunks.chr2.txt
