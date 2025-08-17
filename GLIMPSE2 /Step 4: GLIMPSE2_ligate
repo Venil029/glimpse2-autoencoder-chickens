@@ -1,0 +1,37 @@
+#!/bin/bash
+set -euo pipefail
+
+# OPTIONAL (uncomment if running on your cluster environment)
+# module load miniforge
+# conda activate glimpse2
+
+SAMPLES=("OL1393a" "OL1397a" "OL1677")
+CHR="chr2"
+IN_DIR="GLIMPSE_impute"
+OUT_DIR="GLIMPSE_ligate"
+
+mkdir -p "${OUT_DIR}"
+
+for SAMPLE in "${SAMPLES[@]}"; do
+  LIST="${OUT_DIR}/${SAMPLE}_chr2_list.txt"
+  OUT_BCF="${OUT_DIR}/${SAMPLE}_chr2_ligated.bcf"
+
+  # build ordered list of per-chunk BCFs for this sample on chr2
+  ls -1v "${IN_DIR}/${SAMPLE}_imputed_2_"*.bcf > "${LIST}"
+
+  # sanity check
+  if [[ ! -s "${LIST}" ]]; then
+    echo "[WARN] No chunk BCFs found for ${SAMPLE} in ${IN_DIR}; skipping."
+    rm -f "${LIST}"
+    continue
+  fi
+
+  echo "[INFO] Ligation for ${SAMPLE} (${CHR})"
+  GLIMPSE2_ligate --input "${LIST}" --output "${OUT_BCF}"
+
+  # index final file
+  bcftools index -f "${OUT_BCF}"
+
+  echo "[DONE] ${OUT_BCF}"
+done
+
