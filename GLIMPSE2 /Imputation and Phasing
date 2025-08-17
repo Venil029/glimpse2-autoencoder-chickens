@@ -1,1 +1,43 @@
+!/bin/bash
+#$ -l h_rt=12:00:00              # Runtime
+#$ -l h_vmem=16G                 # Correct memory request for Apocrita
+#$ -pe smp 1                     # Number of CPU cores
+#$ -cwd                          # Run in current working directory
+#$ -N glimpse2_phase_chr2        # Job name
+#$ -o logs/phase_chr2_$JOB_ID.out   # STDOUT log
+#$ -e logs/phase_chr2_$JOB_ID.err   # STDERR log
+
+# Load Conda environment
+module load miniforge
+conda activate glimpse2
+
+# Paths and filenames
+CHUNKS_FILE="chunks.chr2.txt"
+REF_PREFIX="vcf/split_reference_chr2/chr2.4993.split_2"
+OUT_DIR="GLIMPSE_impute"
+mkdir -p ${OUT_DIR}
+
+# Loop through samples
+for SAMPLE in OL1393a OL1397a OL1677; do
+    BAM="bam/ancient/${SAMPLE}/${SAMPLE}_rmdup_1x.bam"
+
+    while IFS="" read -r LINE || [ -n "$LINE" ]; do
+        CHR=$(echo ${LINE} | cut -d" " -f2)
+        IRG=$(echo ${LINE} | cut -d" " -f3)
+        START=$(echo ${IRG} | cut -d":" -f2 | cut -d"-" -f1)
+        END=$(echo ${IRG} | cut -d":" -f2 | cut -d"-" -f2)
+     REF_BIN="${REF_PREFIX}_${START}_${END}.bin"
+        OUT_BCF="${OUT_DIR}/${SAMPLE}_imputed_${CHR}_${START}_${END}.bcf"
+
+        echo "[$SAMPLE] Running GLIMPSE2_phase on ${CHR}:${START}-${END}"
+        ./bin/GLIMPSE2_phase \
+            --bam-file ${BAM} \
+            --reference ${REF_BIN} \
+            --output ${OUT_BCF}
+
+    done < ${CHUNKS_FILE}
+done
+
+conda deactivate
+
 
