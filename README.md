@@ -86,7 +86,7 @@ This pipeline uses a convolutional autoencoder (AE) to learn genetic patterns an
 
 Citation:
 If you use this repository in your research, please cite it as:
-Belliappa, V. (2025). Reconstructing Genotypes from Ultra-Low-Coverage Ancient Chicken DNA: A Benchmark of GLIMPSE2 and Deep-Learning Autoencoders.
+Belliappa, V. (2025). Reconstructing Genotypes from Ultra-Low-Coverage Ancient Chicken DNA: A Benchmark of GLIMPSE2 and Deep-Learning Autoencoders.GitHub repository:https://github.com/Venil029/glimpse2-autoencoder-chickens
 
 Acknowledgements:
 This work was carried out as part of my MSc Bioinformatics dissertation at Queen Mary University of London.
@@ -96,4 +96,4 @@ Contact:
 For questions, suggestions, or collaborations, please reach out:
 Vishnu Belliappa Kibbetta
 Email: vishnubelliappa17@gmail.com
-GitHub: https://github.com/Venil029/glimpse2-autoencoder-chickens.
+GitHub: https://github.com/Venil029/
