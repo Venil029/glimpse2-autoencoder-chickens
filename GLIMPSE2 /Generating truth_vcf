@@ -1,0 +1,72 @@
+#!/bin/bash
+#$ -N val_chr2
+#$ -t 1-3
+#$ -l h_rt=08:00:00
+#$ -l h_vmem=4G
+#$ -pe smp 1
+#$ -cwd
+#$ -o logs/val_chr2_$TASK_ID.out
+#$ -e logs/val_chr2_$TASK_ID.err
+
+module load bcftools
+module load samtools
+
+# Input list: each line = SAMPLE  BAM  CHR
+LST=validation/concordance_samples.lst
+
+LINE=$(sed -n "${SGE_TASK_ID}p" $LST)
+SAMPLE=$(echo $LINE | awk '{print $1}')
+BAM=$(echo   $LINE | awk '{print $2}')
+CHR=$(echo   $LINE | awk '{print $3}')
+
+FASTA=chr2_renamed.fa
+REFVCF=vcf/chr2.referencePanel.vcf.gz
+REFTSV=vcf/chr2.referencePanel.tsv.gz
+VALDIR=validation
+
+# output paths
+TMP1=${VALDIR}/${SAMPLE}.raw.calls.vcf.gz
+VALVCF=${VALDIR}/${SAMPLE}.filtered.validation.vcf.gz
+HEADER=${VALDIR}/${SAMPLE}.header.txt
+
+# 1) create header file with EXACTLY one column: the sample name
+echo "${SAMPLE}" > $HEADER
+
+# 2) mpileup + call:
+#    -a FORMAT/DP  → annotate DP
+#    -Q 20 -q 30   → base and mapping quality filters
+#    -C 50         → adjust excess mapQ differences
+#    -T $REFVCF    → restrict to sites in reference VCF
+#    bcftools call:
+#      -m           → multiallelic caller (emits PL by default)
+#      -v           → output variant sites only
+#      -Oz          → compress to bgzip VCF
+#      -o $TMP1     → write to TMP1
+
+
+bcftools mpileup \
+  -f $FASTA \
+  -I -E \
+  -a FORMAT/DP \
+  -Q 20 -q 30 -C 50 \
+  -T $REFVCF \
+  $BAM \
+| bcftools call \
+  -mv \
+  -Oz \
+  -o $TMP1
+
+# 3) reheader so that sample name in the VCF is exactly $SAMPLE
+bcftools reheader \
+  -s $HEADER \
+  -o ${TMP1}.rehdr.vcf.gz \
+  $TMP1
+
+# 4) move to final name and index
+mv ${TMP1}.rehdr.vcf.gz $VALVCF
+bcftools index -f $VALVCF
+
+# clean up
+rm $TMP1  $HEADER
+
+
