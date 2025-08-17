@@ -96,4 +96,4 @@ Contact:
 For questions, suggestions, or collaborations, please reach out:
 Vishnu Belliappa Kibbetta
 Email: vishnubelliappa17@gmail.com
-GitHub: https://github.com/Venil029/glimpse2-autoencoder-chickens/edit/main/.
+GitHub: https://github.com/Venil029/glimpse2-autoencoder-chickens.
