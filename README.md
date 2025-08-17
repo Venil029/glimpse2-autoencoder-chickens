@@ -65,7 +65,7 @@ This pipeline uses the haplotype-based imputation method GLIMPSE2. It proceeds i
 
 8. Visualisation – Summarise accuracy across coverage levels and filtering thresholds.
 
-Workflow 2: Autoencoder (Deep Learning Approach)
+Workflow 2: Autoencoder (Deep Learning Approach):
 This pipeline uses a convolutional autoencoder (AE) to learn genetic patterns and reconstruct genotypes:
 
 1. VCF preparation – Convert VCF files into a unified genotype dataset.
@@ -84,16 +84,16 @@ This pipeline uses a convolutional autoencoder (AE) to learn genetic patterns an
 
 8. Validation & visualisation – Compare against truth data and plot accuracy metrics.
 
-Citation
+Citation:
 If you use this repository in your research, please cite it as:
 Belliappa, V. (2025). Reconstructing Genotypes from Ultra-Low-Coverage Ancient Chicken DNA: A Benchmark of GLIMPSE2 and Deep-Learning Autoencoders.
 
-Acknowledgements
+Acknowledgements:
 This work was carried out as part of my MSc Bioinformatics dissertation at Queen Mary University of London.
 I would like to thank my supervisors, lab colleagues, and the open-source community for tools like GLIMPSE2, as well as resources such as ChatGPT, Perplexity, and Grammarly, which supported refinement of ideas, writing, and code.
 
-Contact
+Contact:
 For questions, suggestions, or collaborations, please reach out:
 Vishnu Belliappa Kibbetta
-📧 Email: vishnubelliappa17@gmail.com
-🔗 GitHub: https://github.com/Venil029/glimpse2-autoencoder-chickens/edit/main/.
+Email: vishnubelliappa17@gmail.com
+GitHub: https://github.com/Venil029/glimpse2-autoencoder-chickens/edit/main/.
