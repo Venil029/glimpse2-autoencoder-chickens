@@ -1,0 +1,25 @@
+# Example for OL1393a
+bcftools mpileup -Ou -f chr2_renamed.fa -q 30 -Q 20 -C 50 \
+    -T chr2.referencePanel.vcf.gz bam/ancient/OL1393a/OL1393a_rmdup_1x.bam | \
+bcftools call -mv -Oz -o OL1393a.filtered.validation.vcf.gz
+bcftools index -t OL1393a.filtered.validation.vcf.gz
+
+# Repeat for OL1397a
+bcftools mpileup -Ou -f chr2_renamed.fa -q 30 -Q 20 -C 50 \
+    -T chr2.referencePanel.vcf.gz bam/ancient/OL1397a/OL1397a_rmdup_1x.bam | \
+bcftools call -mv -Oz -o OL1397a.filtered.validation.vcf.gz
+bcftools index -t OL1397a.filtered.validation.vcf.gz
+
+# Repeat for OL1677
+bcftools mpileup -Ou -f chr2_renamed.fa -q 30 -Q 20 -C 50 \
+    -T chr2.referencePanel.vcf.gz bam/ancient/OL1677/OL1677_rmdup_1x.bam | \
+bcftools call -mv -Oz -o OL1677.filtered.validation.vcf.gz
+bcftools index -t OL1677.filtered.validation.vcf.gz
+
+bcftools merge -Oz -o ancient_samples.merged.vcf.gz \
+    OL1393a.filtered.validation.vcf.gz \
+    OL1397a.filtered.validation.vcf.gz \
+    OL1677.filtered.validation.vcf.gz
+
+# Index the merged VCF
+bcftools index -t ancient_samples.merged.vcf.gz
