@@ -1,6 +1,4 @@
-Reconstructing Genotypes from Ultra-Low-Coverage Ancient Chicken DNA:
-
-A Benchmark of GLIMPSE2 and Deep-Learning Autoencoders
+Reconstructing Genotypes from Ultra-Low-Coverage Ancient Chicken DNA:A Benchmark of GLIMPSE2 and Deep-Learning Autoencoders
 
 Overview
 This repository contains the full analysis pipeline and scripts developed for my MSc thesis, which investigates how to rebuild accurate genotypes from ultra-low-coverage ancient chicken DNA. Ancient DNA (aDNA) is often degraded and sequenced at very low depths, making it difficult to study population history, domestication, and evolutionary processes.
