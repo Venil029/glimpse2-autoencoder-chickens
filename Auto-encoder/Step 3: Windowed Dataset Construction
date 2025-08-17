@@ -12,3 +12,12 @@ Sample values (3×5):
  tensor([[ 2., -1., -1., -1., -1.],
         [ 2.,  2., -1.,  2., -1.],
         [-1., -1., -1., -1.,  2.]], dtype=torch.float64)
+
+from torch.utils.data import DataLoader
+
+# Create DataLoader
+loader = DataLoader(ds, batch_size=32, shuffle=True)
+
+# Inspect one batch
+batch = next(iter(loader))
+print("Batch shape:", batch.shape)   # Expected: (32, 3, 1000)
