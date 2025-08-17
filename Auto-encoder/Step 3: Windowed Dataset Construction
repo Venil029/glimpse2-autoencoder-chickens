@@ -1,0 +1,14 @@
+ds = GenotypeWindowDataset()
+print("Total windows:", len(ds))
+
+# Inspect one window
+w = ds[0]
+print("Window shape:", w.shape)        # should be (3, 1000)
+print("Sample values (3×5):\n", w[:3, :5])
+PYCODE
+Total windows: 16015
+Window shape: torch.Size([3, 1000])
+Sample values (3×5):
+ tensor([[ 2., -1., -1., -1., -1.],
+        [ 2.,  2., -1.,  2., -1.],
+        [-1., -1., -1., -1.,  2.]], dtype=torch.float64)
