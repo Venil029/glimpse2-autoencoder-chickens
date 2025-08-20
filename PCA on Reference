@@ -1,0 +1,29 @@
+#!/bin/bash
+#$ -N plink_pruning
+#$ -cwd
+#$ -j y
+#$ -o /data/scratch/bt24630/project/chicken_imputation/logs/plink_pruning.log
+#$ -l h_rt=24:00:00
+#$ -l h_vmem=64G
+#$ -pe smp 2
+#$ -l highmem
+
+# Load your environment
+module load miniforge
+conda activate plink-env
+
+# Define paths
+VCF=/data/scratch/bt24630/project/chicken_imputation/vcf/chr2.4930.pca_ready.vcf.gz
+OUTDIR=/data/scratch/bt24630/project/chicken_imputation/plink
+mkdir -p $OUTDIR
+cd $OUTDIR
+
+# Run linkage pruning
+plink --vcf $VCF \
+  --double-id \
+  --allow-extra-chr \
+  --set-missing-var-ids @:# \
+  --indep-pairwise 50 10 0.1 \
+  --out chicken_chr2
+
+echo "Pruning completed at $(date)"
